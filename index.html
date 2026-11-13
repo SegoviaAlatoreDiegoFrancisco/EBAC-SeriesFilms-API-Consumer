@@ -10,7 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
  
     <script defer src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="js/config.js"defer></script>
+    <script src="js/scripts.js"defer></script>
     <title>Series y Películas</title>
 </head>
 <body>
@@ -32,7 +33,12 @@
             <p>Explora títulos destacados</p>
         </section>
 
-        <section class="crousel-section" id="series" aria-labelledby="series-title">
+        <section class="carousel-section" id="series" aria-labelledby="series-title">
+            <div class="search-container" aria-labelledby="Buscador de serie por palabras clave">
+                <input type="text" name="serie-search" id="serie-search" placeholder="Buscar serie...">
+                <button id="serie__search-button">Buscar</button>
+            </div>
+
             <header class="carousel-section__header">
                 <div>
                     <h2 id="series-title">Series</h2>
@@ -48,8 +54,9 @@
 
             <ul class="carousel__list" aria-label="Series destacadas"></ul>
             <p class="carousel__status" role="status" aria-live="polite">Cargando series...</p>
-        </section>
 
+        </section>
+        
         <section class="carousel-section" id="movies" aria-labelledby="movies-title">
             <header class="carousel-section__header">
                 <div>
@@ -70,6 +77,16 @@
     </main>
     <footer class="side-footer">
         <p>&copy 2026 Series y Películas</p>
+         <a href="https://themoviedb.org" target="_blank" rel="noopener noreferrer">
+            <img 
+            src="https://www.themoviedb.org/assets/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg" 
+            alt="The Movie Database (TMDb) Logo" 
+            width="120"
+            />
+        </a>
+        <p>
+            This product uses the TMDB API but is not endorsed or certified by TMDB.
+        </p>
     </footer>
 </body>
 </html>

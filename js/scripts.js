@@ -43,11 +43,11 @@ const showError = (section, message, error)=>{
 //solicita las series a TVmaze, crea tarjetas con los primeros 12 resultados y actualiza el mensaje de estado
 const loadSeries = async (section) =>  {
     const list = section.querySelector(".carousel__list");
-    const status = section. querySelector(".carousel__status");
+    const status = section.querySelector(".carousel__status");
 
     try{
         const response = await axios.get("http://api.tvmaze.com/shows", {
-            params: {page: 0}
+            params: {limit: 12}
         });
 
         const shows = response.data.slice(0,12);
@@ -60,9 +60,40 @@ const loadSeries = async (section) =>  {
         list.replaceChildren(...cards);
         status.textContent = `${cards.length} series cargadas.`;
     }catch ( error){
-        showError(section, "No fue posible cargar las series. Intenta de nuevo", error);
+        showError(section, "No fue posible cargar las series. Intenta de nuevo. ", error);
     }
 };
+
+//Busqueda por palabra clave
+const searchSerie = async (section) =>{
+    const list = section.querySelector(".carousel__list");
+    const status = section.querySelector(".carousel__status");
+    const showName = document.getElementById('serie-search').value.toLowerCase();
+    if(showName){
+        try{
+            const response = await axios.get(`https://api.tvmaze.com/search/shows?q=${showName}`,{params:{limit:12}});
+    
+            const shows = response.data.slice(0,12);
+            const cards = shows.map((show)=> createCard({
+                title:show.show.name,
+                imageUrl: show.show.image?.medium,
+                description: getPlainText(show.show.summary || "")
+            }));
+            console.log(response);
+            list.replaceChildren(...cards);
+            status.textContent = `${cards.length} series cargadas.`;
+        }catch(error){
+            showError(section, "No fue posible cargar las series. Intentalo de nuevo. ",error);
+        }
+    }
+};
+const serieSection = document.querySelector("#series");
+document.getElementById('serie__search-button').addEventListener('click',() => searchSerie(serieSection));
+document.getElementById('serie-search').addEventListener('keypress', function(e){
+    if (e.key ==='Enter'){
+        searchSerie(serieSection);
+    }
+})
 
 //verifica que exista un TMDB_API_KEY, y crea tarjetas con los 12 primeros resultados
 const loadMovies = async  (section) => {
