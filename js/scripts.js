@@ -64,7 +64,7 @@ const loadSeries = async (section) =>  {
     }
 };
 
-//Busqueda por palabra clave
+//Busqueda de serie por palabra clave
 const searchSerie = async (section) =>{
     const list = section.querySelector(".carousel__list");
     const status = section.querySelector(".carousel__status");
@@ -86,7 +86,9 @@ const searchSerie = async (section) =>{
             showError(section, "No fue posible cargar las series. Intentalo de nuevo. ",error);
         }
     }
-};
+}
+
+
 const serieSection = document.querySelector("#series");
 document.getElementById('serie__search-button').addEventListener('click',() => searchSerie(serieSection));
 document.getElementById('serie-search').addEventListener('keypress', function(e){
@@ -127,6 +129,48 @@ const loadMovies = async  (section) => {
         showError(section, "No fue posible cargar las películas. Vuelve a intentar mas tarde.",error);
     }
 };
+
+//busqueda de peliculas por palabras clave
+const searchMovie = async (section) => {
+    const list = section.querySelector('.carousel__list');
+    const status = section.querySelector('.carousel__status');
+    const movieName = section.querySelector('#movie-search').value.trim();
+
+    if(!movieName){
+        status.textContent="Ingresa un nombre valido para la busqueda.";
+        return;
+    }
+
+    try{
+        const response = await axios.get(`https://api.themoviedb.org/3/search/movie`,{
+            params: {
+                api_key:TMDB_API_KEY,
+                query:movieName,
+                language: "es-MX",
+                page:1,
+                include_adult:false
+            }
+        });
+        const movies = response.data.results.slice(0,12);
+        const cards = movies.map((movie)=> createCard({
+            title:movie.title,
+            imageUrl: movie.poster_path?`https://image.tmdb.org/t/p/w500${movie.poster_path}`:"",
+            description: movie.overview
+        }));
+        list.replaceChildren(...cards);
+        status.textContent= movies.length ? `${cards.length} películas cargadas`:"No se encontraron películas";
+    }catch(error){
+        showError(section, "No fue posible cargar las Películas. Vuelve a intentar mas tarde", error);
+    }
+};
+const movieSection = document.querySelector("#movies");
+document.getElementById("movie__search-button").addEventListener('click',()=> searchMovie(movieSection));
+document.getElementById("movie-search").addEventListener('keypress', function(e){
+    if(e.key ==='Enter'){
+        searchMovie(movieSection);
+    }
+})
+
 
 //añade a los botones la funcionalidad de desplazar el contenido adelante o atrás
 const setupCarouselControls = () => {
