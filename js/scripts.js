@@ -71,7 +71,7 @@ const searchSerie = async (section) =>{
     const showName = document.getElementById('serie-search').value.toLowerCase();
     if(showName){
         try{
-            const response = await axios.get(`https://api.tvmaze.com/search/shows?q=${showName}`,{params:{limit:12}});
+            const response = await axios.get(`http://api.tvmaze.com/search/shows?`,{params:{q:showName,limit:12}});
     
             const shows = response.data.slice(0,12);
             const cards = shows.map((show)=> createCard({
@@ -97,25 +97,16 @@ document.getElementById('serie-search').addEventListener('keypress', function(e)
     }
 })
 
-//verifica que exista un TMDB_API_KEY, y crea tarjetas con los 12 primeros resultados
 const loadMovies = async  (section) => {
     const list = section.querySelector(".carousel__list");
     const status = section.querySelector(".carousel__status");
 
-    if(!TMDB_API_KEY){
-        status.textContent ="Agrega la API correcta de TMDB para cargar películas.";
-        return;
-    }
-
+    
     try{
-        const response = await axios.get("https://api.themoviedb.org/3/movie/popular",{
-            params:{
-                api_key:TMDB_API_KEY,
-                language: "es-MX",
-                page:1
-            }
+        const response = await axios.get("/.netlify/functions/movies", {
+            params: { language: "es-MX", page: 1 }
         });
-        
+
         const movies = response.data.results.slice(0,12);
         const cards = movies.map((movie)=> createCard({
             title:movie.title,
@@ -142,9 +133,8 @@ const searchMovie = async (section) => {
     }
 
     try{
-        const response = await axios.get(`https://api.themoviedb.org/3/search/movie`,{
+        const response = await axios.get(`/.netlify/functions/movies`,{
             params: {
-                api_key:TMDB_API_KEY,
                 query:movieName,
                 language: "es-MX",
                 page:1,
