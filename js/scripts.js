@@ -46,7 +46,7 @@ const loadSeries = async (section) =>  {
     const status = section.querySelector(".carousel__status");
 
     try{
-        const response = await axios.get("http://api.tvmaze.com/shows", {
+        const response = await axios.get("https://api.tvmaze.com/shows", {
             params: {limit: 12}
         });
 
@@ -71,7 +71,7 @@ const searchSerie = async (section) =>{
     const showName = document.getElementById('serie-search').value.toLowerCase();
     if(showName){
         try{
-            const response = await axios.get(`http://api.tvmaze.com/search/shows?`,{params:{q:showName,limit:12}});
+            const response = await axios.get(`https://api.tvmaze.com/search/shows?`,{params:{q:showName,limit:12}});
     
             const shows = response.data.slice(0,12);
             const cards = shows.map((show)=> createCard({
