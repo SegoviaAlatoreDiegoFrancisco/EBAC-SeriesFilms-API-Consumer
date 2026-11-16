@@ -2,7 +2,7 @@ $color-text:#3b3b3b;
 $color-text-muted: #616161;
 $color-background: #f5f5f5;
 $color-surface: #fff;
-$color-dark: #333;
+$color-dark: #0d253f;
 $color-border: #ddd;
 $font-base: "Oswald",Arial,Helvetica,sans-serif;
 
@@ -35,7 +35,7 @@ body{
         width:auto;
         height:48px;
     }
-     
+    
     &__links{
         display: flex;
         gap: 1.5rem;
@@ -132,14 +132,15 @@ main{
         scroll-snap-align: start;
     }
     &__card{
-        height:100%;
+        height:auto;
         overflow: hidden;
         border: 1px solid $color-border;
         border-radius: 8px;
         background: $color-surface;
 
-        h3,
+        h2,
         p{
+            padding:0.25rem;
             margin: 0.75rem;
         }
         p{
@@ -161,10 +162,34 @@ main{
     }
 }
 
-.site-footer{
+.search-container{
+    text-align:end;
+    margin: 20px 0;
+}
+input{
+    border: solid 1px;
+    border-radius: 4px;
+}
+#serie-search,
+#movie-search{
+    padding: 10px;
+    width: 200px;
+    margin-right: 10px;
+    border-radius:4px;
+    border: 1px solid #ddd;
+}
+
+.side-footer{
     padding: 1rem 1.5rem;
     text-align:center;
     color: $color-text-muted;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background-color: #0d253f; /* color oficial TMDb */
+    font-family: sans-serif;
+    font-size: 14px;
 }
 
 @media(max-width:600px){
